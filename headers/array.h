@@ -3,7 +3,6 @@
 
 #include "../headers/utilits.h"
 
-
 class Array {
    private:
     int* data = nullptr;
@@ -18,7 +17,6 @@ class Array {
     ~Array();
     Array(const Array& other);
     Array& operator=(const Array& other);
-    Array operator&(const Array& other) const;
     bool contains(int value) const;
 
     friend std::ostream& operator<<(std::ostream& os, const Array& arr) {
@@ -49,5 +47,29 @@ class Array {
             arr.data[i] = validInt();
         }
         return is;
+    }
+
+    friend Array operator&(const Array& lhs, const Array& rhs) {
+        Array result;
+        if (lhs.data == nullptr || lhs.size == 0) {
+            return result;
+        }
+        if (rhs.data == nullptr || rhs.size == 0) {
+            return result;
+        }
+
+        for (int i = 0; i < lhs.size; i++) {
+            if (rhs.contains(lhs.data[i]) && !result.contains(lhs.data[i])) {
+                auto new_data = new int[result.size + 1];
+                for (int j = 0; j < result.size; j++) {
+                    new_data[j] = result.data[j];
+                }
+                new_data[result.size] = lhs.data[i];
+                delete[] result.data;
+                result.data = new_data;
+                result.size++;
+            }
+        }
+        return result;
     }
 };

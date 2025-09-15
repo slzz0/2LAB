@@ -27,7 +27,7 @@ Array::Array(int array_size) : size(array_size) {
 
 Array::~Array() { freeMemory(); }
 
-Array::Array(const Array& other) : data(nullptr), size(0) {
+Array::Array(const Array& other) {
     if (other.data != nullptr && other.size > 0) {
         size = other.size;
         allocateMemory(other.size);
@@ -63,27 +63,5 @@ bool Array::contains(int value) const {
     return false;
 }
 
-Array Array::operator&(const Array& other) const {
-    Array result;
-    if (data == nullptr || size == 0) {
-        return result;
-    }
-    if (other.data == nullptr || other.size == 0) {
-        return result;
-    }
 
-    for (int i = 0; i < size; i++) {
-        if (other.contains(data[i]) && !result.contains(data[i])) {
-            auto new_data = new int[result.size + 1];
-            for (int j = 0; j < result.size; j++) {
-                new_data[j] = result.data[j];
-            }
-            new_data[result.size] = data[i];
-            delete[] result.data;
-            result.data = new_data;
-            result.size++;
-        }
-    }
-    return result;
-}
 

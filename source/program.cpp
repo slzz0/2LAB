@@ -8,7 +8,9 @@
 using namespace std;
 
 void runProgram() {
-    Array arr1, arr2;
+    Array arr1;
+    Array arr2;
+    
     int choice;
     taskMenu();
 
